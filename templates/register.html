@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        <br>
+        <br>
+        {% for field in register_form %}
+      <div class="form-group row">
+        <label for="{{ field.id_for_label }}" class="col-xs-1 col-xs-offset-2 col-form-label">
+            {{ field.label }}</label>
+          {% if field.id_for_label == "id_password_confirm" %}
+          <input type="submit" value="ʕ •ᴥ•ʔ">
+          {% endif %}
+            <div class="col-xs-2">{{ field }}
+            </div>
+          <p class="text-danger col-xs-offset-2" style="color:rgb(255,107,0)">{{ field.errors.as_text }}</>
+      </div>
+        {% endfor %}
+    </form>
+
+{% endblock %}

@@ -1,0 +1,56 @@
+ul {
+    list-style-type: none;
+}
+li {
+    padding:0.05em;
+}
+a.a-decoration {
+    color: rgb(182,180,223);
+    text-decoration: none !important;
+}
+a.a-title {
+    color: inherit;
+}
+div.panel-body h4{
+    margin: 0.4em 0em;
+    margin-bottom:0em;
+    padding-bottom:0.5em;
+    border-bottom: 1px solid #eee;
+}
+div.panel-body a h5{
+    font-size: 115%;
+    display: inline-block;
+}
+
+ul.blog-info{
+    padding-top: 1em;
+    margin-bottom: 2em;
+}
+
+ul.blog-info li{
+    display: inline-block;
+    margin-right: 1em;
+}
+
+div.blog-content {
+    text-indent: 2em;
+}
+
+div.blog_more {
+    float: right;
+}
+
+div.comment-area {
+    margin-top: 0.5em;
+    margin-bottom: 2em;
+}
+div.comment-area p{
+    margin-bottom: 1em;
+}
+div.comment-list {
+    margin-top: 0.5em;
+}
+/* Change the white to any color ;) */
+input:-webkit-autofill{
+    -webkit-box-shadow: 0 0 0 30px white inset;
+}

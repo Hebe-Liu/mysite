@@ -1,0 +1,22 @@
+{% extends 'blog/blog_list.html' %}
+
+{% block title %}{{ blog_type.type_name }} ({{ blogs|length }}){% endblock %}
+
+{% block body %}
+{% for item in page_of_blogs %}
+    <a a class="a-title" href = "{% url 'blog_detail' item.pk %}">
+      <h5>{{ item.title }}</h5>
+    </a>
+    <p>{{ item.content|striptags|truncatewords:15 }}</p>
+    <br>
+{% empty %}
+    <p>Thanks for expected</p>
+
+{% endfor %}
+{% endblock %}
+
+
+
+
+
+

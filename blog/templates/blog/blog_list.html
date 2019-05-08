@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block source %}
+    <link rel="stylesheet" href="{% static 'blog/blog.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8">
+          <div class="panel panel-default">
+              <div class="panel-body">
+                <h4>{% block title %}Articles ({{ blogs|length }}){% endblock %}</h4>
+              </div>
+              <div class="panel-body">
+                  {% block body %}
+                  {% for blog in page_of_blogs %}
+                  <a class="a-title" href = "{% url 'blog_detail' blog.pk %}">
+                      <h5>{{ blog.title }}</h5>
+                  </a>
+                    <p>{{ blog.content|striptags|truncatewords:15 }}</p>
+                    <br>
+                  {% endfor %}
+                  {% endblock %}
+              </div>
+          </div>
+            <div>
+                <ul class="pagination">
+                    <li>
+                        {% if page_of_blogs.has_previous %}
+                        <a href="?page={{ page_of_blogs.previous_page_number }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                        {% else %}
+                            <span aria-hidden="true">&laquo;</span>
+                        {% endif %}
+                    </li>
+
+                    {# 全部页码 #}
+                    {% for page_num in page_range %}
+                        {% if page_num == page_of_blogs.number %}
+                        <li class="active"><span>{{ page_num }}</span></li>
+                        {% else %}
+                            {% if page_num == '...' %}
+                                <li><span>{{ page_num }}</span></li>
+                            {% else %}
+                                <li><a href="?page={{ page_num }}">{{ page_num }}</a></li>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+
+                    <li>
+                        {% if page_of_blogs.has_next %}
+                      <a href="?page={{ page_of_blogs.next_page_number }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                        {% else %}
+                        <span aria-hidden="true">&raquo;</span>
+                        {% endif %}
+                    </li>
+              </ul>
+            </div>
+        </div>
+        <div class="hidden-xs col-sm-2">
+            <h4>Label</h4>
+            <ul class="blog-type">
+                {% for blog_type in blog_types %}
+                <li>
+                    <a class="a-decoration" href="{% url 'blogs_with_type' blog_type.pk %}">{{ blog_type.type_name }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="hidden-xs col-sm-2">
+            <h4>Date</h4>
+            <ul class="blog-type">
+                {% for blog_date in blog_dates %}
+                <li>
+                    <a class="a-decoration" href="{% url 'blogs_with_date' blog_date.year blog_date.month %}">{{ blog_date|date:'Y-m' }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

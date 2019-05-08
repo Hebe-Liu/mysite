@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Crush</title>
+    <link rel="stylesheet" href="/static/base.css">
+    {% block source %}{% endblock %}
+    <link rel="stylesheet" href="/static/bootstrap-3.4.1/css/bootstrap.min.css">
+
+  </head>
+
+  <body>
+      <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <a class="navbar-brand" href="{% url 'home' %}">OPAN MIND</a>
+          </div>
+
+          <ul class="nav navbar-nav">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'blog_list' %}">Articles</a></li>
+          </ul>
+
+        </div>
+      </nav>
+
+    {% block content %}
+    {% endblock %}
+
+      {% block script_extends %}
+      {% endblock %}
+
+    <script type="text/javascript" href="/static/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" href="/static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+
+  </body>
+</html>

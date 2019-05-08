@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block source %}
+ <link rel="stylesheet" href="{% static 'blog/blog.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-offset-1">
+            <h3>{{ blog.title }}</h3>
+            <div class="blog_more">
+                {% if previous_blog %}
+                    <p><a class="a-decoration" href="{% url 'blog_detail' previous_blog.pk %}">{{ previous_blog.title }}</a> Previous</p>
+                {% endif %}
+                {% if next_blog %}
+                <p>Next <a class="a-decoration" href="{% url 'blog_detail' next_blog.pk %}">{{ next_blog.title }}</a></p>
+                {% endif %}
+            </div>
+            <ul class="blog-info">
+                <li>{{ blog.author }}</li>
+                <li><a class="a-decoration" href="{% url 'blogs_with_type' blog.blog_type.pk %}">{{ blog.blog_type }}</a></li>
+                <li>{{ blog.created_time|date:'Y-m-d' }}</li>
+                <li>Reads: {{ blog.get_read_num }}</li>
+            </ul>
+            <div class="blog-content">
+            {{ blog.content|safe }}
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-sm-offset-1">
+            <div class = 'comment-area'>
+                {% if user.is_authenticated %}
+                    <form id = "comment_form" action="{% url 'comment_update' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="comment_text">Hi, {{ user.username }}</label>
+                            <textarea class ="form-control" id="comment_text" name="text" rows="3"></textarea>
+                        </div>
+                        <input type="hidden" name="object_id" value="{{ blog.pk }}">
+                        <input type="hidden" name="content_type" value="blog">
+                        <input type="submit" value="ʕ •ᴥ•ʔ" style="float: right">
+                    </form>
+                {% else %}
+                <p>Please sign in or register first, and leave me a message, thanks!</p>
+                    <a class="a-decoration" href ="{% url 'login' %}?from={{ request.get_full_path }}">Sign in</a>&nbsp;/
+                    <a class="a-decoration" href ="{% url 'register' %}?from={{ request.get_full_path }}">Register</a>
+                {% endif %}
+            </div>
+             {% for comment in comments %}
+            <div class='comment-list'>
+                <b>{{ comment.user.username }}</b>&nbsp;
+                {{ comment.comment_time|date:'Y-m-d' }}:
+                {{ comment.text }}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script_extends %}
+    <script type="text/javascript">
+        $("#comment_form").submit(function(){
+        //异步提交
+        $.ajax({
+            url : "{% url 'comment_update' %}",
+            type : 'POST',
+            data : $(this).serialize(),
+            cache : false,
+            success : function(data){
+                console.log(data);
+            }
+            error : function(xhr){
+                console.log(xhr);
+            }
+        });
+        return false;
+    });
+    </script>
+{% endblock %}

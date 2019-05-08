@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    {{ message }}
+    <a class="a-decoration" href = "{{ redirect_to }}">Go Back</a>
+{% endblock %}
